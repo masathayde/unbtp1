@@ -119,7 +119,7 @@ void BancoDeDados::carregarJogos () throw (exception)
 
       file.read((char*)&bufferDisp, sizeof(unsigned));
 
-      file.read(bufferCpf, sizeof(char)*12);
+      file.read(bufferCpf, sizeof(char)*11);
       bufferCpf[11] = '\0';
       cpf = bufferCpf;
 

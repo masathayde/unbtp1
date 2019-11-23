@@ -7,7 +7,17 @@ using namespace std;
 
 /**** Dominios ****/
 
-class CodigoJogo {
+class DadoString {
+   protected:
+      virtual void         validar (string) throw (invalid_argument)=0;
+   
+   public:
+      virtual void         setar (string) =0;
+
+};
+
+
+class CodigoJogo : public DadoString {
    private:
       string               numero;
       const short          size {3};
@@ -31,7 +41,7 @@ class CodigoIngresso {
       string               getString ();
 };
 
-class NomeDoJogo {
+class NomeDoJogo : public DadoString {
    private:
       string               nome;
       const short          maxSize {24};
@@ -80,7 +90,7 @@ class NumeroSala {
       unsigned             get ();
 };
 
-class Cidade {
+class Cidade : public DadoString {
    private:
       string               nome;
       const short          maxSize {16};

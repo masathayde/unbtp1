@@ -25,7 +25,16 @@ class BancoDeDados {
       void                    carregarJogos () throw (exception);
       void                    carregarUsuarios () throw (exception);
 
+      BancoDeDados () {};
+      BancoDeDados (const BancoDeDados&);
+      void operator=(const BancoDeDados&);
+
    public:
+      static BancoDeDados& getInstance () {
+         static BancoDeDados instance;
+         return instance;
+      }
+
       void                    reconstruir ();
       void                    salvarTudo ();
 

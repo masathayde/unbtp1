@@ -1,3 +1,14 @@
+// Universidade de Brasília - Ciência da Computação
+// Técnicas de Programação 1 - 2º/2019
+// Prof. Washington
+// Marco
+// Rafael
+
+// Mudanças:
+// - Adicionada classe virtual "DadoString".
+// - Classe "Banco de dados" transformada em Singleton.
+// - Criados testes-fumaça.
+
 #include "dominios.h"
 #include "entidades.h"
 #include "database.h"
@@ -7,16 +18,13 @@ using namespace std;
 
 int main () {
 
-    BancoDeDados                db;
+    BancoDeDados*               DB = &BancoDeDados::getInstance();
     UserController              uController;
     MatchController             mController;
-    try {
-        db.reconstruir();
-        uController.menu(db, mController);
-        db.salvarTudo();
-    } catch (exception& e) {
-        cout << e.what() << endl;
-    }
+    DB->reconstruir();
+    uController.menu(*DB, mController);
+    DB->salvarTudo();
+    
 
     return 0;
 }

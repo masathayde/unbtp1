@@ -338,82 +338,86 @@ void UserController::menu (BancoDeDados& db, MatchController& mController)
    bool done = false;
 
    while(!done) {
+      try {
+         cout << "\n\n\n##############";
+         cout << "\nMenu Principal";
 
-      cout << "\n\n\n##############";
-      cout << "\nMenu Principal";
+         if (usuarioLogado) {
+            cout << "\n\n(1) - Consultar jogo";
+            cout << "\n(2) - Comprar ingresso";
+            cout << "\n(3) - Cadastrar jogo";
+            cout << "\n(4) - Alterar jogo";
+            cout << "\n(5) - Deletar jogo";
+            cout << "\n(6) - Listar jogos cadastrados";
+            cout << "\n(7) - Listar ingressos comprados";
+            cout << "\n(8) - Deslogar";
+            cout << "\n(9) - Deletar conta";
+            cout << "\n(0) - Sair";
 
-      if (usuarioLogado) {
-         cout << "\n\n(1) - Consultar jogo";
-         cout << "\n(2) - Comprar ingresso";
-         cout << "\n(3) - Cadastrar jogo";
-         cout << "\n(4) - Alterar jogo";
-         cout << "\n(5) - Deletar jogo";
-         cout << "\n(6) - Listar jogos cadastrados";
-         cout << "\n(7) - Listar ingressos comprados";
-         cout << "\n(8) - Deslogar";
-         cout << "\n(9) - Deletar conta";
-         cout << "\n(0) - Sair";
+            cout << "\nDigite escolha: ";
+            cin >> escolha;
+            cin.clear();
+            cin.ignore((long long)numeric_limits<streamsize>::max, '\n');
 
-         cout << "\nDigite escolha: ";
-         cin >> escolha;
-         cin.clear();
-		   cin.ignore((long long)numeric_limits<streamsize>::max, '\n');
+            switch (escolha) {
+               case 1:  mController.consultarJogo(db);
+                        break;
+               case 2:  comprarIngresso(db, mController);
+                        break;
+               case 3:  cadastrarJogo(db, mController);
+                        break;
+               case 4:  alterarJogo(db, mController);
+                        break;
+               case 5:  deletarJogo(db, mController);
+                        break;
+               case 6:  listarJogos(db, mController);
+                        break;
+               case 7:  listarIngressos(db, mController);
+                        break;
+               case 8:  deslogarUsuario();
+                        break;
+               case 9:  deletarUsuario(db);
+                        break;
 
-         switch (escolha) {
-            case 1:  mController.consultarJogo(db);
-                     break;
-            case 2:  comprarIngresso(db, mController);
-                     break;
-            case 3:  cadastrarJogo(db, mController);
-                     break;
-            case 4:  alterarJogo(db, mController);
-                     break;
-            case 5:  deletarJogo(db, mController);
-                     break;
-            case 6:  listarJogos(db, mController);
-                     break;
-            case 7:  listarIngressos(db, mController);
-                     break;
-            case 8:  deslogarUsuario();
-                     break;
-            case 9:  deletarUsuario(db);
-                     break;
+               case 0:  done = true;
+                        cout << "\nSaindo do programa";
+                        break;
 
-            case 0:  done = true;
-                     cout << "\nSaindo do programa";
-                     break;
+               default: cout << "\nOpcao invalida";
+                        break;
+            }
 
-            default: cout << "\nOpcao invalida";
-                     break;
-         }
-
-      } else {
-         cout << "\n\n(1) - Consultar jogo";
-         cout << "\n(2) - Cadastrar-se";
-         cout << "\n(3) - Logar";
-         cout << "\n(0) - Sair";
-         
-         cout << "\nDigite escolha: ";
-         cin >> escolha;
-         cin.clear();
-		   cin.ignore((long long)numeric_limits<streamsize>::max, '\n');
-
-         switch (escolha) {
-            case 1:  mController.consultarJogo(db);
-                     break;
-            case 2:  cadastrarUsuario(db);
-                     break;
-            case 3:  logarUsuario(db);
-                     break;
+         } else {
+            cout << "\n\n(1) - Consultar jogo";
+            cout << "\n(2) - Cadastrar-se";
+            cout << "\n(3) - Logar";
+            cout << "\n(0) - Sair";
             
-            case 0:  done = true;
-                     cout << "\nSaindo do programa";
-                     break;
-            
-            default: cout << "\nOpcao invalida";
-                     break;
+            cout << "\nDigite escolha: ";
+            cin >> escolha;
+            cin.clear();
+            cin.ignore((long long)numeric_limits<streamsize>::max, '\n');
 
+            switch (escolha) {
+               case 1:  mController.consultarJogo(db);
+                        break;
+               case 2:  cadastrarUsuario(db);
+                        break;
+               case 3:  logarUsuario(db);
+                        break;
+               
+               case 0:  done = true;
+                        cout << "\nSaindo do programa";
+                        break;
+               
+               default: cout << "\nOpcao invalida";
+                        break;
+
+            }
          }
+      
+      } catch (exception& e) {
+      cout << e.what() << endl;
       }
    }
 }
@@ -607,6 +611,9 @@ void MatchController::consultarJogo (BancoDeDados& db)
 
    cout << "\nInserir cidade para consulta: ";
    cin >> cidadeInput;
+
+   cin.clear();
+   cin.ignore((long long)numeric_limits<streamsize>::max, '\n');
 
    vector<Jogo*> resultados;
    resultados = db.consulta(inicio, fim, estado.getSigla(), cidadeInput);
